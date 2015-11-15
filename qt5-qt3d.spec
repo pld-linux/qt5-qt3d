@@ -62,7 +62,6 @@ Requires:	Qt5Gui >= %{qtbase_ver}
 
 %description -n Qt53D
 Qt5 3D libraries.
-platform.
 
 %description -n Qt53D -l pl.UTF-8
 Biblioteki Qt5 3D.
