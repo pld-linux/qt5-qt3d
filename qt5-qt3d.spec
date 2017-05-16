@@ -9,12 +9,12 @@
 Summary:	The Qt5 3D libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Name:		qt5-%{orgname}
-Version:	5.5.1
+Version:	5.8.0
 Release:	1
 License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.5/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	872dfbe166154c2e0e89317ab23d2cd6
+Source0:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
+# Source0-md5:	048bc9762f1da4773384911122b116c4
 URL:		http://www.qt.io/
 BuildRequires:	Qt5Concurrent-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -27,6 +27,7 @@ BuildRequires:	assimp-devel
 BuildRequires:	pkgconfig
 %if %{with qch}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
+BuildRequires:	qt5-doc-common >= %{qttools_ver}
 %endif
 BuildRequires:	qt5-build >= %{qtbase_ver}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
@@ -181,109 +182,128 @@ rm -rf $RPM_BUILD_ROOT
 %files -n Qt53D
 %defattr(644,root,root,755)
 %doc README
-%attr(755,root,root) %{_libdir}/libQt53DCollision.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt53DCollision.so.5
 %attr(755,root,root) %{_libdir}/libQt53DCore.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DCore.so.5
+%attr(755,root,root) %{_libdir}/libQt53DExtras.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DExtras.so.5
 %attr(755,root,root) %{_libdir}/libQt53DInput.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DInput.so.5
 %attr(755,root,root) %{_libdir}/libQt53DLogic.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DLogic.so.5
 %attr(755,root,root) %{_libdir}/libQt53DQuick.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuick.so.5
-%attr(755,root,root) %{_libdir}/libQt53DQuickRenderer.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt53DQuickRenderer.so.5
-%attr(755,root,root) %{_libdir}/libQt53DRenderer.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt53DRenderer.so.5
+%attr(755,root,root) %{_libdir}/libQt53DQuickExtras.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DQuickExtras.so.5
+%attr(755,root,root) %{_libdir}/libQt53DQuickInput.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DQuickInput.so.5
+%attr(755,root,root) %{_libdir}/libQt53DQuickRender.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DQuickRender.so.5
+%attr(755,root,root) %{_libdir}/libQt53DRender.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DRender.so.5
 # loaded from src/render/backend/renderer.cpp
 %dir %{qt5dir}/plugins/sceneparsers
-%attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libassimpsceneparser.so
-%attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libgltfsceneparser.so
-%dir %{qt5dir}/qml/Qt3D
-%attr(755,root,root) %{qt5dir}/qml/Qt3D/libquick3dcoreplugin.so
-%{qt5dir}/qml/Qt3D/qmldir
-%dir %{qt5dir}/qml/Qt3D/Collision
-%attr(755,root,root) %{qt5dir}/qml/Qt3D/Collision/libquick3dcollisionplugin.so
-%{qt5dir}/qml/Qt3D/Collision/qmldir
+%attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libassimpsceneio.so
+%attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libgltfsceneio.so
 %dir %{qt5dir}/qml/Qt3D/Input
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Input/libquick3dinputplugin.so
+%{qt5dir}/qml/Qt3D/Input/plugins.qmltypes
 %{qt5dir}/qml/Qt3D/Input/qmldir
 %dir %{qt5dir}/qml/Qt3D/Logic
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Logic/libquick3dlogicplugin.so
+%{qt5dir}/qml/Qt3D/Logic/plugins.qmltypes
 %{qt5dir}/qml/Qt3D/Logic/qmldir
-%dir %{qt5dir}/qml/Qt3D/Renderer
-%attr(755,root,root) %{qt5dir}/qml/Qt3D/Renderer/libquick3drendererplugin.so
-%{qt5dir}/qml/Qt3D/Renderer/qmldir
 %dir %{qt5dir}/qml/QtQuick/Scene3D
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Scene3D/libqtquickscene3dplugin.so
+%{qt5dir}/qml/QtQuick/Scene3D/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Scene3D/qmldir
+%dir %{qt5dir}/qml/Qt3D/Core
+%attr(755,root,root) %{qt5dir}/qml/Qt3D/Core/libquick3dcoreplugin.so
+%{qt5dir}/qml/Qt3D/Core/plugins.qmltypes
+%{qt5dir}/qml/Qt3D/Core/qmldir
+%dir %{qt5dir}/qml/Qt3D/Extras
+%attr(755,root,root) %{qt5dir}/qml/Qt3D/Extras/libquick3dextrasplugin.so
+%{qt5dir}/qml/Qt3D/Extras/plugins.qmltypes
+%{qt5dir}/qml/Qt3D/Extras/qmldir
+%dir %{qt5dir}/qml/Qt3D/Render
+%attr(755,root,root) %{qt5dir}/qml/Qt3D/Render/libquick3drenderplugin.so
+%{qt5dir}/qml/Qt3D/Render/plugins.qmltypes
+%{qt5dir}/qml/Qt3D/Render/qmldir
 
 %files -n Qt53D-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libQt53DCollision.so
+%attr(755,root,root) %{qt5dir}/bin/qgltf
 %attr(755,root,root) %{_libdir}/libQt53DCore.so
+%attr(755,root,root) %{_libdir}/libQt53DExtras.so
 %attr(755,root,root) %{_libdir}/libQt53DInput.so
 %attr(755,root,root) %{_libdir}/libQt53DLogic.so
+%attr(755,root,root) %{_libdir}/libQt53DQuickExtras.so
+%attr(755,root,root) %{_libdir}/libQt53DQuickInput.so
+%attr(755,root,root) %{_libdir}/libQt53DQuickRender.so
 %attr(755,root,root) %{_libdir}/libQt53DQuick.so
-%attr(755,root,root) %{_libdir}/libQt53DQuickRenderer.so
-%attr(755,root,root) %{_libdir}/libQt53DRenderer.so
-%{_libdir}/libQt53DCollision.prl
+%attr(755,root,root) %{_libdir}/libQt53DRender.so
 %{_libdir}/libQt53DCore.prl
+%{_libdir}/libQt53DExtras.prl
 %{_libdir}/libQt53DInput.prl
 %{_libdir}/libQt53DLogic.prl
+%{_libdir}/libQt53DQuickExtras.prl
+%{_libdir}/libQt53DQuickInput.prl
 %{_libdir}/libQt53DQuick.prl
-%{_libdir}/libQt53DQuickRenderer.prl
-%{_libdir}/libQt53DRenderer.prl
-%{_includedir}/qt5/Qt3DCollision
+%{_libdir}/libQt53DQuickRender.prl
+%{_libdir}/libQt53DRender.prl
 %{_includedir}/qt5/Qt3DCore
+%{_includedir}/qt5/Qt3DExtras
 %{_includedir}/qt5/Qt3DInput
 %{_includedir}/qt5/Qt3DLogic
 %{_includedir}/qt5/Qt3DQuick
-%{_includedir}/qt5/Qt3DQuickRenderer
-%{_includedir}/qt5/Qt3DRenderer
-%{_pkgconfigdir}/Qt53DCollision.pc
+%{_includedir}/qt5/Qt3DQuickExtras
+%{_includedir}/qt5/Qt3DQuickInput
+%{_includedir}/qt5/Qt3DQuickRender
+%{_includedir}/qt5/Qt3DRender
 %{_pkgconfigdir}/Qt53DCore.pc
+%{_pkgconfigdir}/Qt53DExtras.pc
 %{_pkgconfigdir}/Qt53DInput.pc
 %{_pkgconfigdir}/Qt53DLogic.pc
+%{_pkgconfigdir}/Qt53DQuickExtras.pc
+%{_pkgconfigdir}/Qt53DQuickInput.pc
 %{_pkgconfigdir}/Qt53DQuick.pc
-%{_pkgconfigdir}/Qt53DQuickRenderer.pc
-%{_pkgconfigdir}/Qt53DRenderer.pc
-%{_libdir}/cmake/Qt53DCollision
+%{_pkgconfigdir}/Qt53DQuickRender.pc
+%{_pkgconfigdir}/Qt53DRender.pc
 %{_libdir}/cmake/Qt53DCore
+%{_libdir}/cmake/Qt53DExtras
 %{_libdir}/cmake/Qt53DInput
 %{_libdir}/cmake/Qt53DLogic
 %{_libdir}/cmake/Qt53DQuick
-%{_libdir}/cmake/Qt53DQuickRenderer
-%{_libdir}/cmake/Qt53DRenderer
-%{qt5dir}/mkspecs/modules/qt_lib_3dcollision.pri
-%{qt5dir}/mkspecs/modules/qt_lib_3dcollision_private.pri
+%{_libdir}/cmake/Qt53DQuickExtras
+%{_libdir}/cmake/Qt53DQuickInput
+%{_libdir}/cmake/Qt53DQuickRender
+%{_libdir}/cmake/Qt53DRender
 %{qt5dir}/mkspecs/modules/qt_lib_3dcore.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dcore_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dextras.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dextras_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dinput.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dinput_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dlogic.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dlogic_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickextras.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickextras_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickinput.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickinput_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dquick.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dquick_private.pri
-%{qt5dir}/mkspecs/modules/qt_lib_3dquickrenderer.pri
-%{qt5dir}/mkspecs/modules/qt_lib_3dquickrenderer_private.pri
-%{qt5dir}/mkspecs/modules/qt_lib_3drenderer.pri
-%{qt5dir}/mkspecs/modules/qt_lib_3drenderer_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickrender.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickrender_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3drender.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3drender_private.pri
 
 %files doc
 %defattr(644,root,root,755)
-%{_docdir}/qt5-doc/qt3dcollision
-%{_docdir}/qt5-doc/qt3dcore
-%{_docdir}/qt5-doc/qt3dlogic
-%{_docdir}/qt5-doc/qt3drenderer
+%{_docdir}/qt5-doc/qt3d
 
 %if %{with qch}
 %files doc-qch
 %defattr(644,root,root,755)
-%{_docdir}/qt5-doc/qt3dcollision.qch
-%{_docdir}/qt5-doc/qt3dcore.qch
-%{_docdir}/qt5-doc/qt3dlogic.qch
-%{_docdir}/qt5-doc/qt3drenderer.qch
+%{_docdir}/qt5-doc/qt3d.qch
 %endif
 
 %files examples -f examples.files
