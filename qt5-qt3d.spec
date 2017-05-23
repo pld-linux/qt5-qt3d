@@ -10,7 +10,7 @@ Summary:	The Qt5 3D libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Name:		qt5-%{orgname}
 Version:	5.8.0
-Release:	1
+Release:	2
 License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
@@ -204,6 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/plugins/sceneparsers
 %attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libassimpsceneio.so
 %attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libgltfsceneio.so
+%dir %{qt5dir}/qml/Qt3D
 %dir %{qt5dir}/qml/Qt3D/Input
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Input/libquick3dinputplugin.so
 %{qt5dir}/qml/Qt3D/Input/plugins.qmltypes
