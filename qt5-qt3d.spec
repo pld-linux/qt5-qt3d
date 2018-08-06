@@ -9,12 +9,12 @@
 Summary:	The Qt5 3D libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Name:		qt5-%{orgname}
-Version:	5.8.0
-Release:	2
+Version:	5.11.1
+Release:	1
 License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	048bc9762f1da4773384911122b116c4
+Source0:	http://download.qt.io/official_releases/qt/5.11/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+# Source0-md5:	ab14d2104f393aa8727297ac96fadead
 URL:		http://www.qt.io/
 BuildRequires:	Qt5Concurrent-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -128,7 +128,7 @@ Qt5 3D examples.
 Przykłady do bibliotek Qt5 3D.
 
 %prep
-%setup -q -n %{orgname}-opensource-src-%{version}
+%setup -q -n %{orgname}-everywhere-src-%{version}
 
 %build
 qmake-qt5
@@ -146,7 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 # useless symlinks
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.so.5.?
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.so.5.??
 # actually drop *.la, follow policy of not packaging them when *.pc exist
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
@@ -184,6 +184,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -n Qt53D
 %defattr(644,root,root,755)
 %doc README
+%attr(755,root,root) %{_libdir}/libQt53DAnimation.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DAnimation.so.5
 %attr(755,root,root) %{_libdir}/libQt53DCore.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DCore.so.5
 %attr(755,root,root) %{_libdir}/libQt53DExtras.so.*.*.*
@@ -194,6 +196,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt53DLogic.so.5
 %attr(755,root,root) %{_libdir}/libQt53DQuick.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuick.so.5
+%attr(755,root,root) %{_libdir}/libQt53DQuickAnimation.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DQuickAnimation.so.5
 %attr(755,root,root) %{_libdir}/libQt53DQuickExtras.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuickExtras.so.5
 %attr(755,root,root) %{_libdir}/libQt53DQuickInput.so.*.*.*
@@ -202,11 +206,23 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuickRender.so.5
 %attr(755,root,root) %{_libdir}/libQt53DRender.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DRender.so.5
+%attr(755,root,root) %{_libdir}/libQt53DQuickScene2D.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DQuickScene2D.so.5
 # loaded from src/render/backend/renderer.cpp
+%dir %{qt5dir}/plugins/geometryloaders
+%attr(755,root,root) %{_libdir}/qt5/plugins/geometryloaders/libdefaultgeometryloader.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/geometryloaders/libgltfgeometryloader.so
+%dir %{qt5dir}/plugins/renderplugins
+%attr(755,root,root) %{_libdir}/qt5/plugins/renderplugins/libscene2d.so
 %dir %{qt5dir}/plugins/sceneparsers
-%attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libassimpsceneio.so
-%attr(755,root,root) %{qt5dir}/plugins/sceneparsers/libgltfsceneio.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/sceneparsers/libassimpsceneimport.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/sceneparsers/libgltfsceneexport.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/sceneparsers/libgltfsceneimport.so
 %dir %{qt5dir}/qml/Qt3D
+%dir %{qt5dir}/qml/Qt3D/Animation
+%attr(755,root,root) %{qt5dir}/qml/Qt3D/Animation/libquick3danimationplugin.so
+%{qt5dir}/qml/Qt3D/Animation/plugins.qmltypes
+%{qt5dir}/qml/Qt3D/Animation/qmldir
 %dir %{qt5dir}/qml/Qt3D/Input
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Input/libquick3dinputplugin.so
 %{qt5dir}/qml/Qt3D/Input/plugins.qmltypes
@@ -215,6 +231,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Logic/libquick3dlogicplugin.so
 %{qt5dir}/qml/Qt3D/Logic/plugins.qmltypes
 %{qt5dir}/qml/Qt3D/Logic/qmldir
+%dir %{qt5dir}/qml/QtQuick/Scene2D
+%attr(755,root,root) %{qt5dir}/qml/QtQuick/Scene2D/libqtquickscene2dplugin.so
+%{qt5dir}/qml/QtQuick/Scene2D/plugins.qmltypes
+%{qt5dir}/qml/QtQuick/Scene2D/qmldir
 %dir %{qt5dir}/qml/QtQuick/Scene3D
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Scene3D/libqtquickscene3dplugin.so
 %{qt5dir}/qml/QtQuick/Scene3D/plugins.qmltypes
@@ -235,51 +255,69 @@ rm -rf $RPM_BUILD_ROOT
 %files -n Qt53D-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{qt5dir}/bin/qgltf
+%attr(755,root,root) %{_libdir}/libQt53DAnimation.so
 %attr(755,root,root) %{_libdir}/libQt53DCore.so
 %attr(755,root,root) %{_libdir}/libQt53DExtras.so
 %attr(755,root,root) %{_libdir}/libQt53DInput.so
 %attr(755,root,root) %{_libdir}/libQt53DLogic.so
+%attr(755,root,root) %{_libdir}/libQt53DQuickAnimation.so
 %attr(755,root,root) %{_libdir}/libQt53DQuickExtras.so
 %attr(755,root,root) %{_libdir}/libQt53DQuickInput.so
 %attr(755,root,root) %{_libdir}/libQt53DQuickRender.so
+%attr(755,root,root) %{_libdir}/libQt53DQuickScene2D.so
 %attr(755,root,root) %{_libdir}/libQt53DQuick.so
 %attr(755,root,root) %{_libdir}/libQt53DRender.so
+%{_libdir}/libQt53DAnimation.prl
 %{_libdir}/libQt53DCore.prl
 %{_libdir}/libQt53DExtras.prl
 %{_libdir}/libQt53DInput.prl
 %{_libdir}/libQt53DLogic.prl
+%{_libdir}/libQt53DQuickAnimation.prl
 %{_libdir}/libQt53DQuickExtras.prl
 %{_libdir}/libQt53DQuickInput.prl
 %{_libdir}/libQt53DQuick.prl
 %{_libdir}/libQt53DQuickRender.prl
+%{_libdir}/libQt53DQuickScene2D.prl
 %{_libdir}/libQt53DRender.prl
+%{_includedir}/qt5/Qt3DAnimation
 %{_includedir}/qt5/Qt3DCore
 %{_includedir}/qt5/Qt3DExtras
 %{_includedir}/qt5/Qt3DInput
 %{_includedir}/qt5/Qt3DLogic
 %{_includedir}/qt5/Qt3DQuick
+%{_includedir}/qt5/Qt3DQuickAnimation
 %{_includedir}/qt5/Qt3DQuickExtras
 %{_includedir}/qt5/Qt3DQuickInput
 %{_includedir}/qt5/Qt3DQuickRender
+%{_includedir}/qt5/Qt3DQuickScene2D
 %{_includedir}/qt5/Qt3DRender
+%{_pkgconfigdir}/Qt53DAnimation.pc
 %{_pkgconfigdir}/Qt53DCore.pc
 %{_pkgconfigdir}/Qt53DExtras.pc
 %{_pkgconfigdir}/Qt53DInput.pc
 %{_pkgconfigdir}/Qt53DLogic.pc
+%{_pkgconfigdir}/Qt53DQuickAnimation.pc
 %{_pkgconfigdir}/Qt53DQuickExtras.pc
 %{_pkgconfigdir}/Qt53DQuickInput.pc
 %{_pkgconfigdir}/Qt53DQuick.pc
 %{_pkgconfigdir}/Qt53DQuickRender.pc
+%{_pkgconfigdir}/Qt53DQuickScene2D.pc
 %{_pkgconfigdir}/Qt53DRender.pc
+%{_libdir}/cmake/Qt53DAnimation
 %{_libdir}/cmake/Qt53DCore
 %{_libdir}/cmake/Qt53DExtras
 %{_libdir}/cmake/Qt53DInput
 %{_libdir}/cmake/Qt53DLogic
 %{_libdir}/cmake/Qt53DQuick
+%{_libdir}/cmake/Qt53DQuickAnimation
 %{_libdir}/cmake/Qt53DQuickExtras
 %{_libdir}/cmake/Qt53DQuickInput
 %{_libdir}/cmake/Qt53DQuickRender
+%{_libdir}/cmake/Qt53DQuickScene2D
 %{_libdir}/cmake/Qt53DRender
+
+%{qt5dir}/mkspecs/modules/qt_lib_3danimation.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3danimation_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dcore.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dcore_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dextras.pri
@@ -288,6 +326,8 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/mkspecs/modules/qt_lib_3dinput_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dlogic.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dlogic_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickanimation.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickanimation_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dquickextras.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dquickextras_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dquickinput.pri
@@ -296,6 +336,8 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/mkspecs/modules/qt_lib_3dquick_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dquickrender.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3dquickrender_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickscene2d.pri
+%{qt5dir}/mkspecs/modules/qt_lib_3dquickscene2d_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3drender.pri
 %{qt5dir}/mkspecs/modules/qt_lib_3drender_private.pri
 
