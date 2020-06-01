@@ -9,12 +9,12 @@
 Summary:	The Qt5 3D libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Name:		qt5-%{orgname}
-Version:	5.14.2
+Version:	5.15.0
 Release:	1
 License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.14/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	83fa9a0c0b04dd3e0dd0cfe10e06006a
+Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+# Source0-md5:	7f8a281467f80dbd94eb9406e2e7e671
 URL:		http://www.qt.io/
 BuildRequires:	Qt5Concurrent-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -212,6 +212,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/plugins/geometryloaders
 %attr(755,root,root) %{_libdir}/qt5/plugins/geometryloaders/libdefaultgeometryloader.so
 %attr(755,root,root) %{_libdir}/qt5/plugins/geometryloaders/libgltfgeometryloader.so
+%dir %{qt5dir}/plugins/renderers
+%{qt5dir}/plugins/renderers/libopenglrenderer.so
 %dir %{qt5dir}/plugins/renderplugins
 %attr(755,root,root) %{_libdir}/qt5/plugins/renderplugins/libscene2d.so
 %dir %{qt5dir}/plugins/sceneparsers
