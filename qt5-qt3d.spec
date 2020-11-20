@@ -9,12 +9,12 @@
 Summary:	The Qt5 3D libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Name:		qt5-%{orgname}
-Version:	5.15.1
+Version:	5.15.2
 Release:	1
 License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	81d8591e5e44bfe10d85b36431abb626
+# Source0-md5:	ccec3953acbff60829602cf0e1c80ee1
 URL:		http://www.qt.io/
 BuildRequires:	Qt5Concurrent-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -23,7 +23,7 @@ BuildRequires:	Qt5OpenGL-devel >= %{qtbase_ver}
 BuildRequires:	Qt5OpenGLExtensions-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Qml-devel >= %{qtdeclarative_ver}
 BuildRequires:	Qt5Quick-devel >= %{qtdeclarative_ver}
-BuildRequires:	assimp-devel
+BuildRequires:	assimp-devel > 3.3.1
 BuildRequires:	pkgconfig
 %if %{with doc}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
@@ -60,6 +60,7 @@ Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Group:		X11/Libraries
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
+Requires:	assimp > 3.3.1
 
 %description -n Qt53D
 Qt5 3D libraries.
