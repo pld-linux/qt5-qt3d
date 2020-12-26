@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	doc	# Documentation
+%bcond_with	fbx	# Autodesk FBX SDK support (proprietary)
 
 %define		orgname		qt3d
 %define		qtbase_ver		%{version}
@@ -15,7 +16,7 @@ License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
 # Source0-md5:	ccec3953acbff60829602cf0e1c80ee1
-URL:		http://www.qt.io/
+URL:		https://www.qt.io/
 BuildRequires:	Qt5Concurrent-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Gui-devel >= %{qtbase_ver}
@@ -23,7 +24,8 @@ BuildRequires:	Qt5OpenGL-devel >= %{qtbase_ver}
 BuildRequires:	Qt5OpenGLExtensions-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Qml-devel >= %{qtdeclarative_ver}
 BuildRequires:	Qt5Quick-devel >= %{qtdeclarative_ver}
-BuildRequires:	assimp-devel > 3.3.1
+BuildRequires:	assimp-devel >= 5
+%{?with_fbx:BuildRequires:	fbxsdk-devel}
 BuildRequires:	pkgconfig
 %if %{with doc}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
@@ -31,7 +33,7 @@ BuildRequires:	qt5-doc-common >= %{qttools_ver}
 %endif
 BuildRequires:	qt5-build >= %{qtbase_ver}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
-BuildRequires:	rpmbuild(macros) >= 1.654
+BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -60,7 +62,7 @@ Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Group:		X11/Libraries
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
-Requires:	assimp > 3.3.1
+Requires:	assimp >= 5
 
 %description -n Qt53D
 Qt5 3D libraries.
@@ -89,9 +91,7 @@ Summary:	Qt5 3D documentation in HTML format
 Summary(pl.UTF-8):	Dokumentacja do biblioteki Qt5 3D w formacie HTML
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc
 Qt5 3D documentation in HTML format.
@@ -104,9 +104,7 @@ Summary:	Qt5 3D documentation in QCH format
 Summary(pl.UTF-8):	Dokumentacja do biblioteki Qt5 3D w formacie QCH
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc-qch
 Qt5 3D documentation in QCH format.
@@ -118,9 +116,7 @@ Dokumentacja do biblioteki Qt5 3D w formacie QCH.
 Summary:	Qt5 3D examples
 Summary(pl.UTF-8):	Przykłady do bibliotek Qt5 3D
 Group:		X11/Development/Libraries
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description examples
 Qt5 3D examples.
@@ -138,6 +134,7 @@ qmake-qt5
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
@@ -184,79 +181,110 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n Qt53D
 %defattr(644,root,root,755)
-%doc README
+%doc LICENSE.GPL3-EXCEPT README dist/changes-*
+# R: Qt53DCore Qt53DRender Qt5Core Qt5Gui
 %attr(755,root,root) %{_libdir}/libQt53DAnimation.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DAnimation.so.5
+# R: Qt5Core Qt5Gui Qt5Network
 %attr(755,root,root) %{_libdir}/libQt53DCore.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DCore.so.5
+# R: Qt53DCore Qt53DInput Qt53DLogic Qt53DRender Qt5Core Qt5Gui
 %attr(755,root,root) %{_libdir}/libQt53DExtras.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DExtras.so.5
+# R: Qt53DCore Qt5Core Qt5Gui
 %attr(755,root,root) %{_libdir}/libQt53DInput.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DInput.so.5
+# R: Qt53DCore Qt5Core
 %attr(755,root,root) %{_libdir}/libQt53DLogic.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DLogic.so.5
+# R: Qt53DCore Qt5Core Qt5Gui Qt5Qml Qt5QmlModels Qt5Quick
 %attr(755,root,root) %{_libdir}/libQt53DQuick.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuick.so.5
+# R: Qt53DAnimation Qt53DCore Qt53DRender Qt5Core Qt5Qml
 %attr(755,root,root) %{_libdir}/libQt53DQuickAnimation.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuickAnimation.so.5
+# R: Qt53DCore Qt53DExtras Qt53DInput Qt53DLogic Qt53DQuick Qt53DRender Qt5Core Qt5Gui Qt5Qml
 %attr(755,root,root) %{_libdir}/libQt53DQuickExtras.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuickExtras.so.5
+# R: Qt53DCore Qt53DInput Qt5Core Qt5Qml
 %attr(755,root,root) %{_libdir}/libQt53DQuickInput.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuickInput.so.5
+# R: Qt53DCore Qt53DRender Qt5Core Qt5Qml
 %attr(755,root,root) %{_libdir}/libQt53DQuickRender.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuickRender.so.5
-%attr(755,root,root) %{_libdir}/libQt53DRender.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt53DRender.so.5
+# R: Qt53DCore Qt53DRender Qt5Core Qt5Gui Qt5Qml Qt5Quick
 %attr(755,root,root) %{_libdir}/libQt53DQuickScene2D.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt53DQuickScene2D.so.5
-# loaded from src/render/backend/renderer.cpp
+# R: Qt53DCore Qt5Concurrent Qt5Core Qt5Gui
+%attr(755,root,root) %{_libdir}/libQt53DRender.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt53DRender.so.5
+# - loaded from src/render/geometry/qmesh.cpp
 %dir %{qt5dir}/plugins/geometryloaders
+# R: Qt53DRender Qt5Core Qt5Gui
 %attr(755,root,root) %{_libdir}/qt5/plugins/geometryloaders/libdefaultgeometryloader.so
+# R: Qt53DRender Qt5Core
 %attr(755,root,root) %{_libdir}/qt5/plugins/geometryloaders/libgltfgeometryloader.so
+# - loaded from src/render/qrendererpluginfactory.cpp
 %dir %{qt5dir}/plugins/renderers
+# R: Qt53DCore Qt53DRender Qt5Core Qt5Gui
 %{qt5dir}/plugins/renderers/libopenglrenderer.so
+# - loaded from src/render/frontend/qrenderpluginfactory.cpp
 %dir %{qt5dir}/plugins/renderplugins
+# R: Qt53DCore Qt53DQuickScene2D Qt53DRender Qt5Core
 %attr(755,root,root) %{_libdir}/qt5/plugins/renderplugins/libscene2d.so
+# - loaded from src/render/io/qsceneimportfactory.cpp
 %dir %{qt5dir}/plugins/sceneparsers
+# R: Qt53DAnimation Qt53DCore Qt53DExtras Qt53DRender Qt5Core Qt5Gui assimp
 %attr(755,root,root) %{_libdir}/qt5/plugins/sceneparsers/libassimpsceneimport.so
+# R: Qt53DCore Qt53DExtras Qt53DRender Qt5Core Qt5Gui
 %attr(755,root,root) %{_libdir}/qt5/plugins/sceneparsers/libgltfsceneexport.so
+# R: Qt53DCore Qt53DExtras Qt53DRender Qt5Core Qt5Gui
 %attr(755,root,root) %{_libdir}/qt5/plugins/sceneparsers/libgltfsceneimport.so
 %dir %{qt5dir}/qml/Qt3D
 %dir %{qt5dir}/qml/Qt3D/Animation
+# R: Qt53DAnimation Qt53DCore Qt53DQuick Qt53DQuickAnimation Qt5Core Qt5Qml
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Animation/libquick3danimationplugin.so
 %{qt5dir}/qml/Qt3D/Animation/plugins.qmltypes
 %{qt5dir}/qml/Qt3D/Animation/qmldir
-%dir %{qt5dir}/qml/Qt3D/Input
-%attr(755,root,root) %{qt5dir}/qml/Qt3D/Input/libquick3dinputplugin.so
-%{qt5dir}/qml/Qt3D/Input/plugins.qmltypes
-%{qt5dir}/qml/Qt3D/Input/qmldir
-%dir %{qt5dir}/qml/Qt3D/Logic
-%attr(755,root,root) %{qt5dir}/qml/Qt3D/Logic/libquick3dlogicplugin.so
-%{qt5dir}/qml/Qt3D/Logic/plugins.qmltypes
-%{qt5dir}/qml/Qt3D/Logic/qmldir
-%dir %{qt5dir}/qml/QtQuick/Scene2D
-%attr(755,root,root) %{qt5dir}/qml/QtQuick/Scene2D/libqtquickscene2dplugin.so
-%{qt5dir}/qml/QtQuick/Scene2D/plugins.qmltypes
-%{qt5dir}/qml/QtQuick/Scene2D/qmldir
-%dir %{qt5dir}/qml/QtQuick/Scene3D
-%attr(755,root,root) %{qt5dir}/qml/QtQuick/Scene3D/libqtquickscene3dplugin.so
-%{qt5dir}/qml/QtQuick/Scene3D/plugins.qmltypes
-%{qt5dir}/qml/QtQuick/Scene3D/qmldir
 %dir %{qt5dir}/qml/Qt3D/Core
+# R: Qt53DCore Qt53DQuick Qt5Core Qt5Qml Qt5Quick
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Core/libquick3dcoreplugin.so
 %{qt5dir}/qml/Qt3D/Core/plugins.qmltypes
 %{qt5dir}/qml/Qt3D/Core/qmldir
 %dir %{qt5dir}/qml/Qt3D/Extras
+# R: Qt53DCore Qt53DExtras Qt53DQuickExtra Qt53DRender Qt5Core Qt5Qml
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Extras/libquick3dextrasplugin.so
 %{qt5dir}/qml/Qt3D/Extras/plugins.qmltypes
 %{qt5dir}/qml/Qt3D/Extras/qmldir
+%dir %{qt5dir}/qml/Qt3D/Input
+# R: Qt53DCore Qt53DInput Qt53DQuickInput Qt5Core Qt5Qml
+%attr(755,root,root) %{qt5dir}/qml/Qt3D/Input/libquick3dinputplugin.so
+%{qt5dir}/qml/Qt3D/Input/plugins.qmltypes
+%{qt5dir}/qml/Qt3D/Input/qmldir
+%dir %{qt5dir}/qml/Qt3D/Logic
+# R: Qt53DCore Qt53DLogic Qt5Core Qt5Qml
+%attr(755,root,root) %{qt5dir}/qml/Qt3D/Logic/libquick3dlogicplugin.so
+%{qt5dir}/qml/Qt3D/Logic/plugins.qmltypes
+%{qt5dir}/qml/Qt3D/Logic/qmldir
 %dir %{qt5dir}/qml/Qt3D/Render
+# R: Qt53DCore Qt53DQuick Qt53DQuickRender Qt53DRender Qt5Core Qt5Gui Qt5Qml
 %attr(755,root,root) %{qt5dir}/qml/Qt3D/Render/libquick3drenderplugin.so
 %{qt5dir}/qml/Qt3D/Render/plugins.qmltypes
 %{qt5dir}/qml/Qt3D/Render/qmldir
+%dir %{qt5dir}/qml/QtQuick/Scene2D
+# R: Qt53DCore Qt53DRender Qt53DQuickScene2D Qt5Core Qt5Qml
+%attr(755,root,root) %{qt5dir}/qml/QtQuick/Scene2D/libqtquickscene2dplugin.so
+%{qt5dir}/qml/QtQuick/Scene2D/plugins.qmltypes
+%{qt5dir}/qml/QtQuick/Scene2D/qmldir
+%dir %{qt5dir}/qml/QtQuick/Scene3D
+# R: Qt53DAnimation Qt53DCore Qt53DInput Qt53DLogic Qt53DRender Qt5Core Qt5Gui Qt5Qml Qt5Quick
+%attr(755,root,root) %{qt5dir}/qml/QtQuick/Scene3D/libqtquickscene3dplugin.so
+%{qt5dir}/qml/QtQuick/Scene3D/plugins.qmltypes
+%{qt5dir}/qml/QtQuick/Scene3D/qmldir
 
 %files -n Qt53D-devel
 %defattr(644,root,root,755)
+# R: Qt5Core assimp
 %attr(755,root,root) %{qt5dir}/bin/qgltf
 %attr(755,root,root) %{_libdir}/libQt53DAnimation.so
 %attr(755,root,root) %{_libdir}/libQt53DCore.so
