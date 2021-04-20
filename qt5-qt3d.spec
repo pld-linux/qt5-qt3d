@@ -14,7 +14,7 @@ Version:	5.15.2
 Release:	2
 License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+Source0:	https://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
 # Source0-md5:	ccec3953acbff60829602cf0e1c80ee1
 URL:		https://www.qt.io/
 BuildRequires:	Qt5Concurrent-devel >= %{qtbase_ver}
@@ -33,6 +33,7 @@ BuildRequires:	qt5-doc-common >= %{qttools_ver}
 %endif
 BuildRequires:	qt5-build >= %{qtbase_ver}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -78,7 +79,7 @@ Requires:	Qt53D = %{version}-%{release}
 Requires:	Qt5Concurrent-devel >= %{qtbase_ver}
 Requires:	Qt5Core-devel >= %{qtbase_ver}
 Requires:	Qt5Gui-devel >= %{qtbase_ver}
-Requires:	Qt5Qml-devel >= %{qtbase_ver}
+Requires:	Qt5Qml-devel >= %{qtdeclarative_ver}
 
 %description -n Qt53D-devel
 Qt5 3D - development files.
