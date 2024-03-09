@@ -10,12 +10,12 @@
 Summary:	The Qt5 3D libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 3D
 Name:		qt5-%{orgname}
-Version:	5.15.12
+Version:	5.15.13
 Release:	1
 License:	LGPL v3 or GPL v2+ or commercial
 Group:		X11/Libraries
 Source0:	https://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-opensource-src-%{version}.tar.xz
-# Source0-md5:	daf4a3c0813ffcb672f7d0c770483c14
+# Source0-md5:	6b586663ea720c77d75ac13ff11fd2dd
 URL:		https://www.qt.io/
 BuildRequires:	Qt5Concurrent-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
